@@ -43,6 +43,7 @@ const CardStyled = styled.button`
   border-radius: 20%;
   background-color: #d8d2cb;
 `;
+// adding for git purposes
 
 const YouWon = ({ resetGame, clickCount, collection }) => {
   console.log(collection);
