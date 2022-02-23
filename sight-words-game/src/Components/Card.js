@@ -28,14 +28,7 @@ const ImageStyled = styled.img`
   justify-self: center;
 `;
 
-const Card = ({
-  word,
-  id,
-  matched,
-  handleClick,
-  index,
-  isFlipped,
-}) => {
+const Card = ({ word, id, matched, handleClick, index, isFlipped }) => {
   return (
     <ReactCardFlip
       isFlipped={isFlipped}
@@ -44,6 +37,8 @@ const Card = ({
     >
       {/* front of card */}
       <CardStyled onClick={handleClick}>
+        {/* for testing */}
+        {/* <h1>{word}</h1> */}
         <ImageStyled src={bluey} alt='bluey' />
       </CardStyled>
       {/* back of card */}
@@ -52,7 +47,7 @@ const Card = ({
           <h1>{word}</h1>
         </MatchedCardStyled>
       ) : (
-        <CardStyled onClick={handleClick}>
+        <CardStyled>
           <h1>{word}</h1>
         </CardStyled>
       )}

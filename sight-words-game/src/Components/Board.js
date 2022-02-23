@@ -52,6 +52,9 @@ export default function Board() {
     setCollectionFlips(Array.from(Array(20)));
     setClickCount(0);
     setStart(false);
+    setGameCards([]);
+    setCollection([]);
+    setPickedWords([]);
   };
 
   const resetFlips = () => {
@@ -163,12 +166,7 @@ export default function Board() {
     if (tempArr.length === parseInt(level)) {
       setGameCards(tempArr);
     }
-    if (tempArr.length > 0) {
-      for (let i = 0; i < level; i++) {
-        console.log(tempArr[i].word);
-      }
-    }
-  }, [start, level, pickedWords]);
+  }, [start, level, pickedWords, reset]);
 
   const startGame = () => {
     setStart(true);
