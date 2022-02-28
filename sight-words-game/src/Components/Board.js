@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import Card from './Card';
-import wordBank from '../utils/wordBank';
+import { wordBank } from '../utils/wordBank';
 import PickWords from './PickWords';
 import YouWon from './YouWon';
 import Toggle from './Utilities/Toggle';
+import DidYouKnow from './DidYouKnow';
 
 const MainStyled = styled.div`
   display: grid;
-  gap: 10px;
-  padding-bottom: 2.5em;
+  padding-bottom: 7rem;
 `;
 
 const GameStyled = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 10px;
+  padding: 20px;
 `;
 
 const HeaderStyled = styled.header`
@@ -25,20 +25,27 @@ const HeaderStyled = styled.header`
     'header header header header header'
     'start . pick . toggle';
   justify-content: center;
+  text-align: center;
   background-color: ${({ theme }) => theme.third};
   padding: 20px;
   > h1 {
     grid-area: header;
     font-size: 5em;
     color: ${({ theme }) => theme.primary};
+    @media (max-width: 495px) {
+      font-size: 3em;
+    }
   }
 `;
 
 const BoardStyled = styled.div`
   display: grid;
   justify-items: center;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
+  justify-content: center;
+  width: 100%;
+  grid-template-columns: ${({ level }) => {
+    return level === '20' ? 'repeat(5, 1fr)' : 'repeat(4, 1fr)';
+  }};
 `;
 
 const StartGameStyled = styled.button`
@@ -74,6 +81,7 @@ const GameSelectStyled = styled.div`
   grid-column: span 4;
   justify-self: center;
   gap: 10px;
+  margin-bottom: 1rem;
   > h2 {
     color: ${({ theme }) => theme.primary};
   }
@@ -101,6 +109,10 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   const [pickedWords, setPickedWords] = useState([]);
   const [collection, setCollection] = useState([]);
   const { id, setTheme } = useContext(ThemeContext);
+  const [availableWords, setAvailableWords] = useState(wordBank);
+  const [keepWords, setKeepWords] = useState(false);
+  const [knewIt, setKnewIt] = useState(false);
+  const [i, setI] = useState(0);
 
   const resetGame = () => {
     setMatched([]);
@@ -111,7 +123,14 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
     setStart(false);
     setGameCards([]);
     setCollection([]);
-    setPickedWords([]);
+    setKnewIt(false);
+    if (keepWords !== true) {
+      setPickedWords([]);
+    } else {
+      setStart(true);
+    }
+    setKeepWords(false);
+    setI(0);
   };
 
   const resetFlips = () => {
@@ -184,25 +203,23 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
       tempArr = [];
     }
     if (start === true) {
+      console.log('is this being triggered');
       for (let i = tempArr.length / 2; i < level / 2; i++) {
         // set id for word to make matching work
         let id = Math.floor(Math.random() * 2000);
         // helps make sure ids don't repeat
         repeats = pickedWords.filter(word => word.id === id);
 
-        let randomWord = Math.floor(Math.random() * 65);
+        let randomWord = Math.floor(Math.random() * availableWords.length);
 
         if (repeats.length > 0) {
-          console.log('id filter getting hit');
           i--;
-        } else if (wordChecker.includes(wordBank[randomWord])) {
-          console.log('word filter getting hit');
+        } else if (wordChecker.includes(availableWords[randomWord])) {
           i--;
         } else {
-          console.log('Is this getting hit?');
-          tempArr.push({ word: wordBank[randomWord], id });
-          tempArr.push({ word: wordBank[randomWord], id });
-          wordChecker.push(wordBank[randomWord]);
+          tempArr.push({ word: availableWords[randomWord], id });
+          tempArr.push({ word: availableWords[randomWord], id });
+          wordChecker.push(availableWords[randomWord]);
         }
       }
     }
@@ -222,13 +239,29 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
 
     if (tempArr.length === parseInt(level)) {
       setGameCards(tempArr);
+      setPickWords(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [start, level, pickedWords, reset]);
+
+  useEffect(() => {
+    if (collection.length > 0) {
+      if (i >= collection.length) {
+        setKnewIt(({ prevState }) => !prevState);
+      }
+    }
+  }, [i, collection.length]);
+
+  const iCount = count => {
+    let temp = count;
+    setI(temp + 1);
+  };
 
   const startGame = () => {
     setStart(true);
     setPickWords(false);
   };
+
   return (
     <MainStyled>
       <HeaderStyled>
@@ -277,20 +310,38 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
           <PickWords
             setPickedWords={setPickedWords}
             pickedWords={pickedWords}
+            availableWords={availableWords}
+            setAvailableWords={setAvailableWords}
+            setStart={setStart}
+            setPickWords={setPickWords}
           />
         ) : null}
 
         {matched.length === parseInt(level) ? (
-          <div>
-            <YouWon
-              resetGame={resetGame}
-              collection={collection}
-              clickCount={clickCount}
-            />
-            <h1>You won!</h1>
-          </div>
+          <>
+            {knewIt ? (
+              <YouWon
+                resetGame={resetGame}
+                collection={collection}
+                clickCount={clickCount}
+                setKeepWords={setKeepWords}
+                keepWords={keepWords}
+                knewIt={knewIt}
+                i={i}
+                iCount={iCount}
+              />
+            ) : (
+              <DidYouKnow
+                setKnewIt={setKnewIt}
+                knewIt={knewIt}
+                collection={collection}
+                iCount={iCount}
+                i={i}
+              />
+            )}
+          </>
         ) : (
-          <BoardStyled>
+          <BoardStyled level={level}>
             {gameCards.map(({ word, id }, index) => {
               return (
                 <div key={index}>
@@ -303,6 +354,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
                     }
                     matched={matched}
                     checkers={checkers}
+                    level={level}
                   />
                 </div>
               );

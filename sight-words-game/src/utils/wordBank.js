@@ -70,4 +70,37 @@ const wordBank = [
   'where',
 ];
 
-export default wordBank;
+const minecraft = [
+  'andesite',
+  'apple',
+  'beacon',
+  'bedrock',
+  'biome',
+  'block',
+  'bucket',
+  'button',
+  'carpet',
+  'cauldron',
+  'cobblestone',
+  'cobweb',
+  'dandelion',
+  'dungeon',
+  'hopper',
+  'ingot',
+  'inventory',
+  'lava',
+  'minecraft',
+  'mining',
+  'netherrack',
+  'obsidian',
+  'piston',
+  'sandstone',
+  'sapling',
+  'spawn',
+  'stairs',
+  'stronghold',
+  'torch',
+  'zombie',
+];
+
+export { wordBank, minecraft };

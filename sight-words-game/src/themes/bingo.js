@@ -1,6 +1,6 @@
 const theme = {
   id: 'bingo',
-  primary: '#black', //gray
+  primary: 'black',
   secondary: '#B5FE83', //Dark Blue
   background: '#FFB72B', //yellow
   third: '#FFE61B', // orange

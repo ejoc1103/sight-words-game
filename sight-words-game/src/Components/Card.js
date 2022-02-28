@@ -3,7 +3,6 @@ import ReactCardFlip from 'react-card-flip';
 import bluey from '../images/bluey.jfif';
 import bingo from '../images/bingo.png';
 import { ThemeContext } from 'styled-components';
-//TODO: Pic of bluey or Pic of Bingo
 //TODO: Can you say this word? yes or no
 
 import styled from 'styled-components';
@@ -12,14 +11,69 @@ const CardStyled = styled.button`
   width: 150px;
   height: 200px;
   border-radius: 20%;
-  background-color: #d8d2cb;
+  background-color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.text};
+  > h1 {
+    word-break: break-all;
+  }
+  @media (max-width: 760px) {
+    width: ${({ level }) => {
+      return level === '20' ? '120px' : '150px';
+    }};
+    height: ${({ level }) => {
+      return level === '20' ? '170px' : '200px';
+    }};
+  }
+  @media (max-width: 620px) {
+    width: ${({ level }) => {
+      return level === '20' ? '90px' : '120px';
+    }};
+    height: ${({ level }) => {
+      return level === '20' ? '140px' : '170px';
+    }};
+  }
+  @media (max-width: 495px) {
+    width: ${({ level }) => {
+      return level === '20' ? '60px' : '90px';
+    }};
+    height: ${({ level }) => {
+      return level === '20' ? '110px' : '140px';
+    }};
+  }
 `;
 
 const MatchedCardStyled = styled.div`
   width: 150px;
   height: 200px;
   border-radius: 20%;
-  background-color: #d8d2cb;
+  @media (max-width: 625px) {
+    width: 100px;
+    height: 150px;
+  }
+  @media (max-width: 760px) {
+    width: ${({ level }) => {
+      return level === '20' ? '120px' : '150px';
+    }};
+    height: ${({ level }) => {
+      return level === '20' ? '170px' : '200px';
+    }};
+  }
+  @media (max-width: 620px) {
+    width: ${({ level }) => {
+      return level === '20' ? '90px' : '120px';
+    }};
+    height: ${({ level }) => {
+      return level === '20' ? '140px' : '170px';
+    }};
+  }
+  @media (max-width: 495px) {
+    width: ${({ level }) => {
+      return level === '20' ? '60px' : '90px';
+    }};
+    height: ${({ level }) => {
+      return level === '20' ? '110px' : '140px';
+    }};
+  }
 `;
 
 const ImageStyled = styled.img`
@@ -30,7 +84,7 @@ const ImageStyled = styled.img`
   justify-self: center;
 `;
 
-const Card = ({ word, id, matched, handleClick, index, isFlipped }) => {
+const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
   const theme = useContext(ThemeContext);
   let pic = bluey;
   if (theme.id !== 'bluey') {
@@ -43,18 +97,18 @@ const Card = ({ word, id, matched, handleClick, index, isFlipped }) => {
       flipSpeedFrontToBack={1}
     >
       {/* front of card */}
-      <CardStyled onClick={handleClick}>
+      <CardStyled onClick={handleClick} level={level}>
         {/* for testing */}
-        {/* <h1>{word}</h1> */}
-        <ImageStyled src={pic} alt='bluey or bingo' />
+        <h1>{word}</h1>
+        {/* <ImageStyled src={pic} alt='bluey or bingo' /> */}
       </CardStyled>
       {/* back of card */}
       {matched.includes(index) ? (
-        <MatchedCardStyled>
+        <MatchedCardStyled level={level}>
           <h1>{word}</h1>
         </MatchedCardStyled>
       ) : (
-        <CardStyled>
+        <CardStyled level={level}>
           <h1>{word}</h1>
         </CardStyled>
       )}

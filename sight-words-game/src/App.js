@@ -16,20 +16,28 @@ body {
 `;
 
 const FullStyled = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
   position: relative;
   min-height: 100vh;
+  justify-content: center;
 `;
 
 const FooterStyled = styled.div`
+  display: grid;
   background-color: ${({ theme }) => theme.third};
   padding: 20px 0 20px 0;
   font-size: 2em;
-  text-align: center;
+  justify-items: center;
+  align-items: center;
   position: absolute;
   bottom: 0;
+  height: 2.5rem;
   width: 100%;
-  height: 2.5em;
   color: ${({ theme }) => theme.primary};
+  @media (max-width: 470px) {
+    font-size: 1.5em;
+  }
 `;
 
 function App() {
@@ -54,7 +62,7 @@ function App() {
           setPickWords={setPickWords}
         />
 
-        <FooterStyled>Footer</FooterStyled>
+        <FooterStyled>Created By Ed O'Connor</FooterStyled>
       </FullStyled>
     </ThemeProvider>
   );
