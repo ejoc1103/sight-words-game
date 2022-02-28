@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect, useContext } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 import Card from './Card';
 import wordBank from '../utils/wordBank';
 import PickWords from './PickWords';
 import YouWon from './YouWon';
+import Toggle from './Utilities/Toggle';
+
+const MainStyled = styled.div`
+  display: grid;
+  gap: 10px;
+  padding-bottom: 2.5em;
+`;
 
 const GameStyled = styled.div`
   display: grid;
@@ -11,28 +18,78 @@ const GameStyled = styled.div`
   grid-gap: 10px;
 `;
 
+const HeaderStyled = styled.header`
+  display: grid;
+  gap: 5px;
+  grid-template-areas:
+    'header header header header header'
+    'start . pick . toggle';
+  justify-content: center;
+  background-color: ${({ theme }) => theme.third};
+  padding: 20px;
+  > h1 {
+    grid-area: header;
+    font-size: 5em;
+    color: ${({ theme }) => theme.primary};
+  }
+`;
+
 const BoardStyled = styled.div`
   display: grid;
+  justify-items: center;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 10px;
 `;
 
 const StartGameStyled = styled.button`
-  dispay: grid;
+  display: grid;
   justify-items: center;
   align-items: center;
-  grid-column: span 4;
+  justify-self: center;
+  grid-area: start;
+  font-size: 1.5em;
+  color: ${({ theme }) => theme.text};
+  border-radius: 40%;
+  padding: 10px;
+  background-color: ${({ theme }) => theme.secondary};
 `;
 
 const PickWordsStyled = styled.button`
   display: grid;
   justify-items: center;
   align-items: center;
-  grid-column: span 4;
+  grid-area: pick;
+  padding: 10px;
+  color: ${({ theme }) => theme.text};
+  border-radius: 40%;
+
+  font-size: 1.5em;
+  justify-self: center;
+  background-color: ${({ theme }) => theme.secondary};
 `;
 
-export default function Board() {
-  const [start, setStart] = useState(false);
+const GameSelectStyled = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: span 4;
+  justify-self: center;
+  gap: 10px;
+  > h2 {
+    color: ${({ theme }) => theme.primary};
+  }
+  > button {
+    font-size: 1.5em;
+    background-color: ${({ theme }) => theme.secondary};
+    color: ${({ theme }) => theme.text};
+  }
+  > select {
+    font-size: 1.5em;
+    background-color: ${({ theme }) => theme.secondary};
+    color: ${({ theme }) => theme.text};
+  }
+`;
+
+export default function Board({ start, setStart, pickWords, setPickWords }) {
   const [gameCards, setGameCards] = useState([]);
   const [reset, setReset] = useState(false);
   const [collectionFlips, setCollectionFlips] = useState(Array.from(Array(20)));
@@ -41,9 +98,9 @@ export default function Board() {
   const [clickCount, setClickCount] = useState(0);
   const [checks, setChecks] = useState(0);
   const [level, setLevel] = useState('12');
-  const [pickWords, setPickWords] = useState(false);
   const [pickedWords, setPickedWords] = useState([]);
   const [collection, setCollection] = useState([]);
+  const { id, setTheme } = useContext(ThemeContext);
 
   const resetGame = () => {
     setMatched([]);
@@ -172,67 +229,87 @@ export default function Board() {
     setStart(true);
     setPickWords(false);
   };
-
   return (
-    <GameStyled>
-      {matched.length !== parseInt(level) ? (
-        <>
-          <h2>Attempts: {clickCount}</h2>
-          <button onClick={() => resetGame()}>Reset Game</button>
-          <select name='level' id='level' onChange={handleChange} value={level}>
-            <option value='12'>Easy</option>
-            <option value='16'>Normal</option>
-            <option value='20'>Hard</option>
-          </select>
-        </>
-      ) : null}
-      <PickWordsStyled
-        onClick={() => {
-          setPickWords(prevState => !prevState);
-        }}
-      >
-        Pick Practice Words
-      </PickWordsStyled>
-      {pickWords === true ? (
-        <PickWords setPickedWords={setPickedWords} pickedWords={pickedWords} />
-      ) : null}
-      <StartGameStyled
-        onClick={() => {
-          startGame();
-        }}
-      >
-        Start Game
-      </StartGameStyled>
+    <MainStyled>
+      <HeaderStyled>
+        <h1>Sight Word Game</h1>
+        <Toggle isActive={id === 'bingo'} onToggle={setTheme} />
+        {start ? null : (
+          <PickWordsStyled
+            onClick={() => {
+              setPickWords(prevState => !prevState);
+            }}
+          >
+            {pickWords ? 'Close Word Bank' : 'Pick Practice Words'}
+          </PickWordsStyled>
+        )}
 
-      {matched.length === parseInt(level) ? (
-        <div>
-          <YouWon
-            resetGame={resetGame}
-            collection={collection}
-            clickCount={clickCount}
+        {start === true ? null : (
+          <StartGameStyled
+            onClick={() => {
+              startGame();
+            }}
+          >
+            Start Game
+          </StartGameStyled>
+        )}
+      </HeaderStyled>
+      <GameStyled>
+        {matched.length !== parseInt(level) ? (
+          <GameSelectStyled>
+            <h2>Attempts: {clickCount}</h2>
+            <button onClick={() => resetGame()}>Reset Game</button>
+            {start ? null : (
+              <select
+                name='level'
+                id='level'
+                onChange={handleChange}
+                value={level}
+              >
+                <option value='12'>Easy</option>
+                <option value='16'>Normal</option>
+                <option value='20'>Hard</option>
+              </select>
+            )}
+          </GameSelectStyled>
+        ) : null}
+        {pickWords === true ? (
+          <PickWords
+            setPickedWords={setPickedWords}
+            pickedWords={pickedWords}
           />
-          <h1>You won!</h1>
-        </div>
-      ) : (
-        <BoardStyled>
-          {gameCards.map(({ word, id }, index) => {
-            return (
-              <div key={index}>
-                <Card
-                  word={word}
-                  id={id}
-                  isFlipped={collectionFlips[index]}
-                  handleClick={
-                    checks < 2 ? () => handleClick(index, word) : null
-                  }
-                  matched={matched}
-                  checkers={checkers}
-                />
-              </div>
-            );
-          })}
-        </BoardStyled>
-      )}
-    </GameStyled>
+        ) : null}
+
+        {matched.length === parseInt(level) ? (
+          <div>
+            <YouWon
+              resetGame={resetGame}
+              collection={collection}
+              clickCount={clickCount}
+            />
+            <h1>You won!</h1>
+          </div>
+        ) : (
+          <BoardStyled>
+            {gameCards.map(({ word, id }, index) => {
+              return (
+                <div key={index}>
+                  <Card
+                    word={word}
+                    id={id}
+                    isFlipped={collectionFlips[index]}
+                    handleClick={
+                      checks < 2 ? () => handleClick(index, word) : null
+                    }
+                    matched={matched}
+                    checkers={checkers}
+                  />
+                </div>
+              );
+            })}
+          </BoardStyled>
+        )}
+      </GameStyled>
+    </MainStyled>
   );
 }

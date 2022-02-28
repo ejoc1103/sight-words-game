@@ -6,7 +6,13 @@ const PickedWordsStyled = styled.div`
   display: grid;
   grid-column: span 4;
   gap: 10px;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(8, 1fr);
+  >button {
+    font-size: 1.5em;
+    background-color: ${({ theme }) => theme.third};
+    color: ${({ theme }) => theme.text};
+    font-weight: 800;
+  }
 `;
 
 export default function PickWords({ setPickedWords, pickedWords }) {

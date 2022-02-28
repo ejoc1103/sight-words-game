@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import bluey from '../images/bluey.jfif';
+import bingo from '../images/bingo.png';
+import { ThemeContext } from 'styled-components';
 //TODO: Pic of bluey or Pic of Bingo
 //TODO: Can you say this word? yes or no
 
@@ -29,6 +31,11 @@ const ImageStyled = styled.img`
 `;
 
 const Card = ({ word, id, matched, handleClick, index, isFlipped }) => {
+  const theme = useContext(ThemeContext);
+  let pic = bluey;
+  if (theme.id !== 'bluey') {
+    pic = bingo;
+  }
   return (
     <ReactCardFlip
       isFlipped={isFlipped}
@@ -39,7 +46,7 @@ const Card = ({ word, id, matched, handleClick, index, isFlipped }) => {
       <CardStyled onClick={handleClick}>
         {/* for testing */}
         {/* <h1>{word}</h1> */}
-        <ImageStyled src={bluey} alt='bluey' />
+        <ImageStyled src={pic} alt='bluey or bingo' />
       </CardStyled>
       {/* back of card */}
       {matched.includes(index) ? (
