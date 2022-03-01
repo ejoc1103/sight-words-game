@@ -99,13 +99,11 @@ export default function PickWords({
 
     setPickedWords(tempArr);
     setAvailableWords(prevState => {
-      console.log(currentWord);
       return prevState.filter(word => word !== currentWord);
     });
   };
 
   const handleClick2 = id => {
-    console.log(id + '    ' + bankId);
     if (id === 'sight-words') {
       setAvailableWords(wordBank);
       setBankId('sight-words');

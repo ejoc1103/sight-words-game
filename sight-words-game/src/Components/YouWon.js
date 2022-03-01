@@ -44,6 +44,9 @@ const PlayAgainStyled = styled.button`
 `;
 
 const KeepPickedWordsStyled = styled.button`
+  display: ${({ keepSwitch }) => {
+    return keepSwitch ? 'grid' : 'none';
+  }};
   width: 80%;
   background-color: ${({ theme }) => theme.secondary};
   font-size: 1.5em;
@@ -70,22 +73,32 @@ const YouWon = ({
   resetGame,
   clickCount,
   collection,
-  setKeepWords,
-  keepWords,
+  setPickedWords,
+  setKeepSwitch,
+  keepSwitch,
+  setAvailableWords,
 }) => {
-  console.log(collection);
+  const handleClick = () => {
+    console.log('Click');
+    resetGame();
+  };
+  const handleKeepWords = () => {
+    setKeepSwitch(false);
+    setPickedWords([]);
+  };
   return (
     <MainStyled>
       <WinnerBannerStyled>
         <h1>You Won!</h1>
         <h2>{`You did it in ${clickCount} attempts`}</h2>
-        <PlayAgainStyled onClick={() => resetGame()}>
-          {keepWords ? 'Play Again' : 'Retrun To Home Page'}
+        <PlayAgainStyled onClick={() => handleClick()}>
+          {keepSwitch ? 'Play Again' : 'Retrun To Home Page'}
         </PlayAgainStyled>
-        <KeepPickedWordsStyled onClick={() => setKeepWords(!keepWords)}>
-          {keepWords
-            ? 'Erase Selected Practice Words'
-            : 'Keep Selected Practive Words?'}
+        <KeepPickedWordsStyled
+          keepSwitch={keepSwitch}
+          onClick={() => handleKeepWords()}
+        >
+          Erase Selected Practice Words
         </KeepPickedWordsStyled>
       </WinnerBannerStyled>
 

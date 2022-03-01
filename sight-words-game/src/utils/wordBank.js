@@ -68,6 +68,10 @@ const wordBank = [
   'say',
   'find',
   'where',
+  'who',
+  'over',
+  'away',
+  'when',
 ];
 
 const minecraft = [

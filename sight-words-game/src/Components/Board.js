@@ -110,9 +110,9 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   const [collection, setCollection] = useState([]);
   const { id, setTheme } = useContext(ThemeContext);
   const [availableWords, setAvailableWords] = useState(wordBank);
-  const [keepWords, setKeepWords] = useState(false);
   const [knewIt, setKnewIt] = useState(false);
   const [i, setI] = useState(0);
+  const [keepSwitch, setKeepSwitch] = useState('keep');
 
   const resetGame = () => {
     setMatched([]);
@@ -124,13 +124,16 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
     setGameCards([]);
     setCollection([]);
     setKnewIt(false);
-    if (keepWords !== true) {
-      setPickedWords([]);
-    } else {
-      setStart(true);
-    }
-    setKeepWords(false);
     setI(0);
+    if (keepSwitch) {
+      console.log('is if being hit');
+      startGame();
+    } else {
+      console.log('is else being hit?');
+      setAvailableWords(wordBank);
+      setKeepSwitch(true);
+    }
+    console.log('Am i being triggered');
   };
 
   const resetFlips = () => {
@@ -157,7 +160,6 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
       setCheckers([]);
       setChecks(0);
       setCollection(prevState => [...prevState, gameCards[checkers[0]].word]);
-      console.log(collection);
     }
   };
 
@@ -203,7 +205,6 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
       tempArr = [];
     }
     if (start === true) {
-      console.log('is this being triggered');
       for (let i = tempArr.length / 2; i < level / 2; i++) {
         // set id for word to make matching work
         let id = Math.floor(Math.random() * 2000);
@@ -324,11 +325,11 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
                 resetGame={resetGame}
                 collection={collection}
                 clickCount={clickCount}
-                setKeepWords={setKeepWords}
-                keepWords={keepWords}
+                setPickedWords={setPickedWords}
                 knewIt={knewIt}
-                i={i}
-                iCount={iCount}
+                setKeepSwitch={setKeepSwitch}
+                keepSwitch={keepSwitch}
+                setAvailableWords={setAvailableWords}
               />
             ) : (
               <DidYouKnow
