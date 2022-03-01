@@ -126,14 +126,11 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
     setKnewIt(false);
     setI(0);
     if (keepSwitch) {
-      console.log('is if being hit');
       startGame();
     } else {
-      console.log('is else being hit?');
       setAvailableWords(wordBank);
       setKeepSwitch(true);
     }
-    console.log('Am i being triggered');
   };
 
   const resetFlips = () => {

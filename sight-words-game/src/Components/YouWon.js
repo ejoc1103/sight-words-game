@@ -76,7 +76,6 @@ const YouWon = ({
   setPickedWords,
   setKeepSwitch,
   keepSwitch,
-  setAvailableWords,
 }) => {
   const handleClick = () => {
     console.log('Click');
