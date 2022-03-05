@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
 
 body {
   background-color: ${({ theme }) => theme.background};
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Noto Sans', sans-serif;
 }
 `;
 
