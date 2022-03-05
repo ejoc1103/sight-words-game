@@ -10,6 +10,7 @@
 
 # production
 /build
+/note.js
 
 # misc
 .DS_Store
