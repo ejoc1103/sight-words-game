@@ -3,7 +3,6 @@ import ReactCardFlip from 'react-card-flip';
 import bluey from '../images/bluey.jfif';
 import bingo from '../images/bingo.png';
 import { ThemeContext } from 'styled-components';
-//TODO: Can you say this word? yes or no
 
 import styled from 'styled-components';
 

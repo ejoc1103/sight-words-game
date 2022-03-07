@@ -5,7 +5,9 @@ import { wordBank } from '../utils/wordBank';
 import PickWords from './PickWords';
 import YouWon from './YouWon';
 import Toggle from './Utilities/Toggle';
+import CardflipAudio from '../audio/Card-flip.mp3';
 import DidYouKnow from './DidYouKnow';
+import MatchSound from '../audio/match.wav';
 
 const MainStyled = styled.div`
   display: grid;
@@ -112,9 +114,12 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   const [availableWords, setAvailableWords] = useState(wordBank);
   const [knewIt, setKnewIt] = useState(false);
   const [i, setI] = useState(0);
-  const [keepSwitch, setKeepSwitch] = useState('keep');
+  const [keepSwitch, setKeepSwitch] = useState(true);
+  const audio = new Audio(CardflipAudio);
+  const matchAudio = new Audio(MatchSound);
 
   const resetGame = () => {
+    console.log(keepSwitch);
     setMatched([]);
     setCheckers([]);
     setReset(!reset);
@@ -149,10 +154,11 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
     if (gameCards[checkers[0]].id !== gameCards[checkers[1]].id) {
       setTimeout(() => {
         resetFlips();
-      }, 1200);
+      }, 1500);
 
       setCheckers([]);
     } else {
+      matchAudio.play();
       setMatched([...matched, ...checkers]);
       setCheckers([]);
       setChecks(0);
@@ -167,6 +173,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   });
 
   const handleClick = index => {
+    audio.play();
     //Checks that the same card wasn't clicked twice
     if (checkers.length === 1 && index === checkers[0]) {
       return;
@@ -260,6 +267,15 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
     setPickWords(false);
   };
 
+  const afterSwitch = () => {
+    resetGame();
+  };
+
+  const handleReset = () => {
+    console.log(keepSwitch);
+    afterSwitch();
+  };
+
   return (
     <MainStyled>
       <HeaderStyled>
@@ -289,7 +305,14 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
         {matched.length !== parseInt(level) ? (
           <GameSelectStyled>
             <h2>Attempts: {clickCount}</h2>
-            <button onClick={() => resetGame()}>Reset Game</button>
+            <button
+              onClick={() => {
+                setKeepSwitch(false);
+                handleReset();
+              }}
+            >
+              Reset Game
+            </button>
             {start ? null : (
               <select
                 name='level'

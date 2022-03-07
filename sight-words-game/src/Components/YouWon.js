@@ -1,5 +1,4 @@
 import React from 'react';
-
 import styled from 'styled-components';
 
 const MainStyled = styled.div`
@@ -78,13 +77,13 @@ const YouWon = ({
   keepSwitch,
 }) => {
   const handleClick = () => {
-    console.log('Click');
     resetGame();
   };
   const handleKeepWords = () => {
     setKeepSwitch(false);
     setPickedWords([]);
   };
+
   return (
     <MainStyled>
       <WinnerBannerStyled>
