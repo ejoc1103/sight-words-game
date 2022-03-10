@@ -72,6 +72,10 @@ const wordBank = [
   'over',
   'away',
   'when',
+  'ask',
+  'but',
+  'many',
+  'they',
 ];
 
 const minecraft = [
@@ -105,6 +109,10 @@ const minecraft = [
   'stronghold',
   'torch',
   'zombie',
+  'fish',
+  'rose',
+  'slab',
+  'flower',
 ];
 
 export { wordBank, minecraft };

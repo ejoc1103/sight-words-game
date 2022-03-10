@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import bluey from '../images/bluey.jfif';
 import bingo from '../images/bingo.png';
 import { ThemeContext } from 'styled-components';
-
 import styled from 'styled-components';
+import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const CardStyled = styled.button`
   width: 150px;
@@ -85,10 +86,24 @@ const ImageStyled = styled.img`
 
 const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
   const theme = useContext(ThemeContext);
+
+  let msg = new SpeechSynthesisUtterance('');
   let pic = bluey;
   if (theme.id !== 'bluey') {
     pic = bingo;
   }
+  useEffect(() => {
+    speechSynthesis.speak(msg);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const clickSound = word => {
+    msg.text = `${word}`;
+    console.log('hit');
+    msg.voice = speechSynthesis.getVoices().filter(voice => {
+      return voice.name === 'Microsoft Zira - English (United States)';
+    })[0];
+    speechSynthesis.speak(msg);
+  };
   return (
     <ReactCardFlip
       isFlipped={isFlipped}
@@ -103,12 +118,16 @@ const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
       </CardStyled>
       {/* back of card */}
       {matched.includes(index) ? (
-        <MatchedCardStyled level={level}>
+        <MatchedCardStyled level={level} onClick={() => clickSound(word)}>
           <h1>{word}</h1>
+
+          <FontAwesomeIcon icon={faVolumeHigh} />
         </MatchedCardStyled>
       ) : (
-        <CardStyled level={level}>
+        <CardStyled level={level} onClick={() => clickSound(word)}>
           <h1>{word}</h1>
+
+          <FontAwesomeIcon icon={faVolumeHigh} />
         </CardStyled>
       )}
     </ReactCardFlip>

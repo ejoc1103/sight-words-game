@@ -91,9 +91,11 @@ export default function PickWords({
   setAvailableWords,
   setStart,
   setPickWords,
+  setKeepSwitch,
 }) {
   const [bankId, setBankId] = useState('sight-words');
   const handleClick = currentWord => {
+    setKeepSwitch(true);
     let id = Math.floor(Math.random() * 65);
     let tempArr = [...pickedWords, { word: currentWord, id }];
 

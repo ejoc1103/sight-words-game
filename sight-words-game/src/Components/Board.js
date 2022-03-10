@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import Card from './Card';
 import { wordBank } from '../utils/wordBank';
 import PickWords from './PickWords';
 import YouWon from './YouWon';
-import Toggle from './Utilities/Toggle';
 import CardflipAudio from '../audio/Card-flip.mp3';
 import DidYouKnow from './DidYouKnow';
 import MatchSound from '../audio/match.wav';
+import Nav from './Utilities/Nav';
 
 const MainStyled = styled.div`
   display: grid;
+  justify-items: center;
   padding-bottom: 7rem;
 `;
 
@@ -25,7 +26,8 @@ const HeaderStyled = styled.header`
   gap: 5px;
   grid-template-areas:
     'header header header header header'
-    'start . pick . toggle';
+    'nav nav nav nav nav'
+    '. start . pick .';
   justify-content: center;
   text-align: center;
   background-color: ${({ theme }) => theme.third};
@@ -110,11 +112,10 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   const [level, setLevel] = useState('12');
   const [pickedWords, setPickedWords] = useState([]);
   const [collection, setCollection] = useState([]);
-  const { id, setTheme } = useContext(ThemeContext);
   const [availableWords, setAvailableWords] = useState(wordBank);
   const [knewIt, setKnewIt] = useState(false);
   const [i, setI] = useState(0);
-  const [keepSwitch, setKeepSwitch] = useState(true);
+  const [keepSwitch, setKeepSwitch] = useState(false);
   const audio = new Audio(CardflipAudio);
   const matchAudio = new Audio(MatchSound);
 
@@ -134,7 +135,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
       startGame();
     } else {
       setAvailableWords(wordBank);
-      setKeepSwitch(true);
+      setKeepSwitch(false);
     }
   };
 
@@ -257,9 +258,13 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
     }
   }, [i, collection.length]);
 
-  const iCount = count => {
+  const iCount = (count, direction) => {
     let temp = count;
-    setI(temp + 1);
+    if (direction === 'back') {
+      setI(temp - 1);
+    } else {
+      setI(temp + 1);
+    }
   };
 
   const startGame = () => {
@@ -268,19 +273,20 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   };
 
   const afterSwitch = () => {
+    console.log(keepSwitch);
     resetGame();
   };
 
   const handleReset = () => {
-    console.log(keepSwitch);
+    setKeepSwitch(false);
     afterSwitch();
+    console.log(keepSwitch);
   };
 
   return (
     <MainStyled>
       <HeaderStyled>
         <h1>Sight Word Game</h1>
-        <Toggle isActive={id === 'bingo'} onToggle={setTheme} />
         {start ? null : (
           <PickWordsStyled
             onClick={() => {
@@ -301,18 +307,21 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
           </StartGameStyled>
         )}
       </HeaderStyled>
+      <Nav />
       <GameStyled>
         {matched.length !== parseInt(level) ? (
           <GameSelectStyled>
             <h2>Attempts: {clickCount}</h2>
-            <button
-              onClick={() => {
-                setKeepSwitch(false);
-                handleReset();
-              }}
-            >
-              Reset Game
-            </button>
+            {gameCards.length > 0 ? (
+              <button
+                onClick={() => {
+                  setKeepSwitch(false);
+                  handleReset();
+                }}
+              >
+                Reset Game
+              </button>
+            ) : null}
             {start ? null : (
               <select
                 name='level'
@@ -335,6 +344,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
             setAvailableWords={setAvailableWords}
             setStart={setStart}
             setPickWords={setPickWords}
+            setKeepSwitch={setKeepSwitch}
           />
         ) : null}
 

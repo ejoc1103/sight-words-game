@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Board from './Components/Board';
 import BlueyTheme from './themes/bluey';
 import BingoTheme from './themes/bingo';
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+import Directions from './Components/Directions';
+import Issues from './Components/Issues';
 const GlobalStyle = createGlobalStyle`
   *{
   margin: 0;
@@ -21,6 +24,7 @@ const FullStyled = styled.div`
   position: relative;
   min-height: 100vh;
   justify-content: center;
+  justify-items: center;
 `;
 
 const FooterStyled = styled.div`
@@ -55,12 +59,24 @@ function App() {
     >
       <GlobalStyle />
       <FullStyled>
-        <Board
-          start={start}
-          setStart={setStart}
-          pickWords={pickWords}
-          setPickWords={setPickWords}
-        />
+        <Router>
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <Board
+                  start={start}
+                  setStart={setStart}
+                  pickWords={pickWords}
+                  setPickWords={setPickWords}
+                />
+              }
+            />
+
+            <Route path='/directions' element={<Directions />} />
+            <Route path='/issues' element={<Issues />} />
+          </Routes>
+        </Router>
 
         <FooterStyled>Created By Ed O'Connor</FooterStyled>
       </FullStyled>

@@ -7,8 +7,6 @@ const ToggleWrapper = styled.div`
   height: 25px;
   border-radius: 25px;
   border: 1px solid #666;
-  grid-area: toggle;
-  margin: auto;
   display: flex;
   background-image: linear-gradient(
     to bottom,
