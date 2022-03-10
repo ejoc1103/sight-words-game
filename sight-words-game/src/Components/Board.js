@@ -155,7 +155,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
     if (gameCards[checkers[0]].id !== gameCards[checkers[1]].id) {
       setTimeout(() => {
         resetFlips();
-      }, 1500);
+      }, 1000);
 
       setCheckers([]);
     } else {

@@ -1,6 +1,8 @@
 import React from 'react';
 import Nav from './Utilities/Nav';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 
 const PageStyled = styled.div`
   display: grid;
@@ -60,6 +62,12 @@ const Directions = () => {
         start game button and it will fill the rest of the board with random
         words. There is also a Minecraft word bank that functions the same way
         after you select that bank in the Pick Practice Words Menu
+      </p>
+      <hr />
+      <h2>Hear the words</h2>
+      <p>
+        Any time you see the <FontAwesomeIcon icon={faVolumeHigh} /> icon you
+        can click and hear the word read to you if you don't know it.
       </p>
       <hr />
       <h2>After you win!</h2>

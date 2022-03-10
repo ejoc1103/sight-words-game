@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const MainStyled = styled.div`
   display: grid;
@@ -76,6 +78,20 @@ const YouWon = ({
   setKeepSwitch,
   keepSwitch,
 }) => {
+  let msg = new SpeechSynthesisUtterance('');
+  useEffect(() => {
+    speechSynthesis.speak(msg);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const clickSound = word => {
+    console.log(word);
+    msg.text = `${word}`;
+    console.log('hit');
+    msg.voice = speechSynthesis.getVoices().filter(voice => {
+      return voice.name === 'Microsoft Zira - English (United States)';
+    })[0];
+    speechSynthesis.speak(msg);
+  };
   const handleClick = () => {
     resetGame();
   };
@@ -102,8 +118,9 @@ const YouWon = ({
 
       <PageStyled>
         {collection.map((word, index) => (
-          <CardStyled key={index}>
+          <CardStyled key={index} onClick={() => clickSound(word)}>
             <h1>{word}</h1>
+            <FontAwesomeIcon icon={faVolumeHigh} />
           </CardStyled>
         ))}
       </PageStyled>
