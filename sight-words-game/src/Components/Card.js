@@ -115,13 +115,11 @@ const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
       {matched.includes(index) ? (
         <MatchedCardStyled level={level} onClick={() => clickSound(word)}>
           <h1>{word}</h1>
-
           <FontAwesomeIcon icon={faVolumeHigh} />
         </MatchedCardStyled>
       ) : (
         <CardStyled level={level} onClick={() => clickSound(word)}>
           <h1>{word}</h1>
-
           <FontAwesomeIcon icon={faVolumeHigh} />
         </CardStyled>
       )}

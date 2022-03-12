@@ -4,7 +4,7 @@ import Card from './Card';
 import { wordBank } from '../utils/wordBank';
 import PickWords from './PickWords';
 import YouWon from './YouWon';
-import CardflipAudio from '../audio/Card-flip.mp3';
+// import CardflipAudio from '../audio/Card-flip.mp3';
 import DidYouKnow from './DidYouKnow';
 import MatchSound from '../audio/match.wav';
 import Nav from './Utilities/Nav';
@@ -116,7 +116,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   const [knewIt, setKnewIt] = useState(false);
   const [i, setI] = useState(0);
   const [keepSwitch, setKeepSwitch] = useState(false);
-  const audio = new Audio(CardflipAudio);
+  // const audio = new Audio(CardflipAudio);
   const matchAudio = new Audio(MatchSound);
 
   const resetGame = () => {
@@ -173,7 +173,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   });
 
   const handleClick = index => {
-    audio.play();
+    // audio.play();
     //Checks that the same card wasn't clicked twice
     if (checkers.length === 1 && index === checkers[0]) {
       return;
