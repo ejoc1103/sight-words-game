@@ -102,8 +102,8 @@ const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
   return (
     <ReactCardFlip
       isFlipped={isFlipped}
-      flipSpeedBackToFront={1.5}
-      flipSpeedFrontToBack={1.5}
+      flipSpeedBackToFront={1.6}
+      flipSpeedFrontToBack={1.6}
     >
       {/* front of card */}
       <CardStyled onClick={handleClick} level={level}>
