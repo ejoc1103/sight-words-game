@@ -4,10 +4,10 @@ import Card from './Card';
 import { wordBank } from '../utils/wordBank';
 import PickWords from './PickWords';
 import YouWon from './YouWon';
-// import CardflipAudio from '../audio/Card-flip.mp3';
 import DidYouKnow from './DidYouKnow';
 import MatchSound from '../audio/match.wav';
 import Nav from './Utilities/Nav';
+// import CardflipAudio from '../audio/Card-flip.mp3';
 
 const MainStyled = styled.div`
   display: grid;
