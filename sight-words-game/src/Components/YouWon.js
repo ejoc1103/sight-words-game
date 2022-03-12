@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -79,17 +79,9 @@ const YouWon = ({
   keepSwitch,
 }) => {
   let msg = new SpeechSynthesisUtterance('');
-  useEffect(() => {
-    speechSynthesis.speak(msg);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
   const clickSound = word => {
-    console.log(word);
     msg.text = `${word}`;
-    console.log('hit');
-    msg.voice = speechSynthesis.getVoices().filter(voice => {
-      return voice.name === 'Microsoft Zira - English (United States)';
-    })[0];
     speechSynthesis.speak(msg);
   };
   const handleClick = () => {

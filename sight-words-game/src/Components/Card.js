@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import bluey from '../images/bluey.jfif';
 import bingo from '../images/bingo.png';
@@ -92,16 +92,9 @@ const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
   if (theme.id !== 'bluey') {
     pic = bingo;
   }
-  useEffect(() => {
-    speechSynthesis.speak(msg);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
   const clickSound = word => {
     msg.text = `${word}`;
-    console.log('hit');
-    msg.voice = speechSynthesis.getVoices().filter(voice => {
-      return voice.name === 'Microsoft Zira - English (United States)';
-    })[0];
     speechSynthesis.speak(msg);
   };
   return (

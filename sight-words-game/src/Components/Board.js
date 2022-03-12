@@ -120,7 +120,6 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   const matchAudio = new Audio(MatchSound);
 
   const resetGame = () => {
-    console.log(keepSwitch);
     setMatched([]);
     setCheckers([]);
     setReset(!reset);
@@ -273,14 +272,12 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   };
 
   const afterSwitch = () => {
-    console.log(keepSwitch);
     resetGame();
   };
 
   const handleReset = () => {
     setKeepSwitch(false);
     afterSwitch();
-    console.log(keepSwitch);
   };
 
   return (
