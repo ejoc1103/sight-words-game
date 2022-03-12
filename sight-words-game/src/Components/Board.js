@@ -120,6 +120,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   const matchAudio = new Audio(MatchSound);
 
   const resetGame = () => {
+    console.log(keepSwitch);
     setMatched([]);
     setCheckers([]);
     setReset(!reset);
@@ -271,15 +272,11 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
     setPickWords(false);
   };
 
-  const afterSwitch = () => {
-    resetGame();
-  };
-
   const handleReset = () => {
-    setKeepSwitch(false);
-    afterSwitch();
+    resetGame(!reset);
   };
 
+  console.log(keepSwitch);
   return (
     <MainStyled>
       <HeaderStyled>
@@ -304,7 +301,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
           </StartGameStyled>
         )}
       </HeaderStyled>
-      <Nav />
+      <Nav start={start} />
       <GameStyled>
         {matched.length !== parseInt(level) ? (
           <GameSelectStyled>
@@ -312,7 +309,6 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
             {gameCards.length > 0 ? (
               <button
                 onClick={() => {
-                  setKeepSwitch(false);
                   handleReset();
                 }}
               >

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import bluey from '../images/bluey.jfif';
 import bingo from '../images/bingo.png';
@@ -6,6 +6,7 @@ import { ThemeContext } from 'styled-components';
 import styled from 'styled-components';
 import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 const CardStyled = styled.button`
   width: 150px;
@@ -86,16 +87,17 @@ const ImageStyled = styled.img`
 
 const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
   const theme = useContext(ThemeContext);
+  const { speak } = useSpeechSynthesis();
 
-  let msg = new SpeechSynthesisUtterance('');
   let pic = bluey;
   if (theme.id !== 'bluey') {
     pic = bingo;
   }
 
   const clickSound = word => {
-    msg.text = `${word}`;
-    speechSynthesis.speak(msg);
+    speak({
+      text: word,
+    });
   };
   return (
     <ReactCardFlip
@@ -106,7 +108,7 @@ const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
       {/* front of card */}
       <CardStyled onClick={handleClick} level={level}>
         {/* for testing */}
-        {/* <h1>{word}</h1> */}
+        <h1>{word}</h1>
         <ImageStyled src={pic} alt='bluey or bingo' />
       </CardStyled>
       {/* back of card */}

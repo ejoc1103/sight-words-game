@@ -3,6 +3,7 @@ import Winner from '../audio/winner.wav';
 import styled from 'styled-components';
 import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 const DidYouKnowStyled = styled.div`
   display: grid;
@@ -58,36 +59,32 @@ const SelectStyled = styled.select`
   color: ${({ theme }) => theme.text};
 `;
 export default function DidYouKnow({ collection, i, iCount }) {
+  const { speak } = useSpeechSynthesis();
+  const [voices, setVoices] = useState(speechSynthesis.getVoices());
   const [practiceVoice, setPracticeVoice] = useState(
     'Microsoft Zira - English (United States)'
   );
-  let synth = window.speechSynthesis;
-  let voices = synth.getVoices();
-  console.log(voices);
-  let msg = new SpeechSynthesisUtterance('');
 
   const winnerAudio = new Audio(Winner);
   useEffect(() => {
-    winnerAudio.play();
-    speechSynthesis.speak(msg);
+    // winnerAudio.play();
+    setVoices(prevState => {
+      let newState = prevState.filter(
+        voice =>
+          voice.name === 'Microsoft Zira - English (United States)' ||
+          voice.name === 'Microsoft David - English (United States)' ||
+          voice.name === 'Microsoft Mark - English (United States)'
+      );
+      return newState;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const clickSound = word => {
-    msg.text = `${word}`;
-    console.log('hit');
-    msg.voice = speechSynthesis.getVoices().filter(voice => {
-      return voice.name === `${practiceVoice}`;
-    })[0];
-    console.log(voices.length);
-    for (let j = 0; j < voices.length; j++) {
-      console.log(voices[j].name);
-      if (voices[j].name === `${practiceVoice}`) {
-        msg.voice = voices[j];
-      }
-    }
-    console.log(msg.voice);
-    speechSynthesis.speak(msg);
+    speak({
+      text: word,
+      voice: voices.filter(voice => voice.name === practiceVoice)[0],
+    });
   };
   const handleChange = e => {
     setPracticeVoice(`${e.target.value}`);
@@ -108,11 +105,11 @@ export default function DidYouKnow({ collection, i, iCount }) {
           onChange={handleChange}
           value={practiceVoice}
         >
+          <option value='Microsoft Zira - English (United States)'>Zira</option>
           <option value='Microsoft David - English (United States)'>
             David
           </option>
           <option value='Microsoft Mark - English (United States)'>Mark</option>
-          <option value='Microsoft Zira - English (United States)'>Zira</option>
         </SelectStyled>
       </div>
       {i === 0 ? (

@@ -45,18 +45,22 @@ const NavStyled = styled.nav`
   }
 `;
 
-const Nav = () => {
+const Nav = ({ start }) => {
   const { pathname } = useLocation();
   const { id, setTheme } = useContext(ThemeContext);
 
   return (
     <NavStyled>
       <ul>
-        <li>
-          <NavLinkStyled end to='/' pathname={pathname}>
-            Home
-          </NavLinkStyled>
-        </li>
+        {start ? (
+          <div></div>
+        ) : (
+          <li>
+            <NavLinkStyled end to='/' pathname={pathname}>
+              Home
+            </NavLinkStyled>
+          </li>
+        )}
         <li>
           <NavLinkStyled to='/directions' pathname={pathname}>
             Directions

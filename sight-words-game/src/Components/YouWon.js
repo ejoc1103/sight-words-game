@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 const MainStyled = styled.div`
   display: grid;
@@ -78,11 +79,10 @@ const YouWon = ({
   setKeepSwitch,
   keepSwitch,
 }) => {
-  let msg = new SpeechSynthesisUtterance('');
+  const { speak } = useSpeechSynthesis();
 
   const clickSound = word => {
-    msg.text = `${word}`;
-    speechSynthesis.speak(msg);
+    speak({ text: word });
   };
   const handleClick = () => {
     resetGame();
