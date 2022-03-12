@@ -108,7 +108,7 @@ const Card = ({ word, matched, handleClick, index, isFlipped, level }) => {
       {/* front of card */}
       <CardStyled onClick={handleClick} level={level}>
         {/* for testing */}
-        <h1>{word}</h1>
+        {/* <h1>{word}</h1> */}
         <ImageStyled src={pic} alt='bluey or bingo' />
       </CardStyled>
       {/* back of card */}
