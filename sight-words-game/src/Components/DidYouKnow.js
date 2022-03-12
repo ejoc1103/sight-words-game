@@ -67,7 +67,7 @@ export default function DidYouKnow({ collection, i, iCount }) {
 
   const winnerAudio = new Audio(Winner);
   useEffect(() => {
-    // winnerAudio.play();
+    winnerAudio.play();
     setVoices(prevState => {
       let newState = prevState.filter(
         voice =>

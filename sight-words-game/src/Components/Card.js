@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import ReactCardFlip from 'react-card-flip';
 import bluey from '../images/bluey.jfif';
 import bingo from '../images/bingo.png';
