@@ -32,6 +32,9 @@ const PageStyled = styled.div`
     border-radius: 50%;
     margin: 20px;
   }
+  @media (max-width: 600px) {
+    padding: 0 40px 7rem 40px;
+  }
 `;
 
 const Directions = () => {
