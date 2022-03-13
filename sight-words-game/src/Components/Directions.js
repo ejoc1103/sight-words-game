@@ -7,21 +7,23 @@ import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 const PageStyled = styled.div`
   display: grid;
   justify-items: center;
-  width: 80%;
   text-align: center;
   padding-bottom: 7rem;
   > h1 {
+    width: 80%;
     color: ${({ theme }) => theme.text};
     text-align: center;
     font-size: 5em;
     font-weight: 600;
   }
   > h2 {
+    width: 80%;
     color: ${({ theme }) => theme.text};
     text-align: center;
     font-size: 2.5em;
   }
   > p {
+    width: 80%;
     color: ${({ theme }) => theme.text};
     text-align: center;
     font-size: 2em;
@@ -33,6 +35,15 @@ const PageStyled = styled.div`
     margin: 20px;
   }
   @media (max-width: 600px) {
+    > h1 {
+      font-size: 3em;
+    }
+    > h2 {
+      font-size: 1.5em;
+    }
+    > p {
+      font-size: 1em;
+    }
     padding: 0 40px 7rem 40px;
   }
 `;
