@@ -116,8 +116,8 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   const [knewIt, setKnewIt] = useState(false);
   const [i, setI] = useState(0);
   const [keepSwitch, setKeepSwitch] = useState(false);
-  const audio = new Audio(CardflipAudio);
-  const matchAudio = new Audio(MatchSound);
+  const [cardFlipAudio, setCardFlipAudio] = useState('');
+  const [matchAudio, setMatchAudio] = useState('');
 
   const resetGame = () => {
     setMatched([]);
@@ -173,7 +173,7 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
   });
 
   const handleClick = index => {
-    audio.play();
+    cardFlipAudio.play();
     //Checks that the same card wasn't clicked twice
     if (checkers.length === 1 && index === checkers[0]) {
       return;
@@ -256,6 +256,12 @@ export default function Board({ start, setStart, pickWords, setPickWords }) {
       }
     }
   }, [i, collection.length]);
+
+  useEffect(() => {
+    setMatchAudio(new Audio(MatchSound));
+    setCardFlipAudio(new Audio(CardflipAudio));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const iCount = (count, direction) => {
     let temp = count;
