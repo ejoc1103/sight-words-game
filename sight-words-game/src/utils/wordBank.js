@@ -76,6 +76,11 @@ const wordBank = [
   'but',
   'many',
   'they',
+  'there',
+  'came',
+  'take',
+  'no',
+  'yes',
 ];
 
 const minecraft = [
