@@ -81,6 +81,10 @@ const wordBank = [
   'take',
   'no',
   'yes',
+  'soon',
+  'new',
+  'ate',
+  'her',
 ];
 
 const minecraft = [
