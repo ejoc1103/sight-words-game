@@ -85,6 +85,10 @@ const wordBank = [
   'new',
   'ate',
   'her',
+  'them',
+  'one',
+  'by',
+  'every'
 ];
 
 const minecraft = [
