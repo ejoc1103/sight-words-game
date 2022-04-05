@@ -88,7 +88,11 @@ const wordBank = [
   'them',
   'one',
   'by',
-  'every'
+  'every',
+  'stop',
+  'only',
+  'their',
+  'just',
 ];
 
 const minecraft = [
